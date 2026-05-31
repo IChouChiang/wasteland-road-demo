@@ -1,9 +1,9 @@
-const CACHE_NAME = "wasteland-road-demo-20260531-v2";
+const CACHE_NAME = "wasteland-road-demo-20260531-v3";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./background.MP3?v=1",
-  "./collision.wav?v=3",
+  "./background.MP3?v=2",
+  "./collision.wav?v=4",
 ];
 
 self.addEventListener("install", (event) => {
