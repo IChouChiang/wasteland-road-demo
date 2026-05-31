@@ -1,4 +1,4 @@
-const CACHE_NAME = "wasteland-road-demo-20260531";
+const CACHE_NAME = "wasteland-road-demo-20260531-v2";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -26,6 +26,19 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
 
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) {
+    return;
+  }
+
+  if (request.mode === "navigate" || new URL(request.url).pathname.endsWith("/index.html")) {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache));
+          return networkResponse;
+        })
+        .catch(() => caches.match(request).then((cachedResponse) => cachedResponse || caches.match("./index.html")))
+    );
     return;
   }
 
